@@ -1,7 +1,6 @@
 import { injectable, inject } from 'tsyringe';
 
-import {classToClass} from 'class-transformer'
-
+import { classToClass } from 'class-transformer';
 
 import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
@@ -27,14 +26,16 @@ class ListProfileService {
       `providers-list:${user_id}`,
     );
 
-
     if (!users) {
       users = await this.usersRepository.findAllProviders({
         except_user_id: user_id,
       });
     }
 
-    await this.cacheProvider.save(`providers-list:${user_id}`, classToClass(users));
+    await this.cacheProvider.save(
+      `providers-list:${user_id}`,
+      classToClass(users),
+    );
 
     return users;
   }
